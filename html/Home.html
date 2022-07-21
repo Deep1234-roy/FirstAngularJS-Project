@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <script src="../scripts//script.js"></script>
+        <script src="../scripts/genderFilter.js"></script>
+        <link href="../css/style.css" rel="stylesheet">
+
+    </head>
+    <body ng-app="myModule" style="background-color: deepskyblue;">
+        <div ng-controller="myController">
+            <div class="header">
+                <p>Employee List</p>
+            </div>
+            <br/><br/>
+            <div class="filterMethods">
+                Rows to Display : - <input type="number" step="1" min="0" max="10" ng-model="RowLimit"/><br/><br/>
+                Order By : - <select ng-model="sortColumn">
+                                <option value="name">NAME ASC</option>
+                                <option value="-age">AGE DESC</option>
+                                <option value="city">CITY ASC</option>
+                                <option value="-salary">SALARY DESC</option>
+                </select>&nbsp;&nbsp;
+
+                Search Employees By Name Only:- <input type="text" placeholder="Search Employees By Name" ng-model="searchEmpByName.name"/><br/><br/>
+                Search Employees By Name Or City:- <input type="text" placeholder="Search Employees by Name Or City" ng-model="serachText"/><br/><br/>
+                Hide Salary -> <input type="checkbox" ng-model="hideSalary"/><br/><br/>
+                Shows your Greetings :- <button ng-disabled="mySwitch" type="button"ng-click="greet()" class="button">Greet Me</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>City</th>
+                        <th ng-hide="hideSalary">Salary</th>
+                        <th ng-show="hideSalary">Salary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="emp in employees | limitTo:RowLimit |orderBy: sortColumn | filter:searchEmpByName | filter:search">
+                        <td>{{emp.name | uppercase}}</td>
+                        <td>{{emp.age}}</td>
+                        <td>{{emp.gender | genderFilter}}</td>
+                        <td>{{emp.city}}</td>
+                        <td ng-hide="hideSalary">{{emp.salary | number:2}}</td>
+                        <td ng-show="hideSalary">#####</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <footer>
+                <p>Author :- Deep Roy</p>
+                <a href="deep.roy@ge.com">deep@example.com</a>
+            </footer>
+        </div>
+
+    </body>
+</html>
